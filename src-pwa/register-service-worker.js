@@ -27,7 +27,7 @@ register(process.env.SERVICE_WORKER_FILE, {
   updatefound(/* registration */) {
     // console.log('New content is downloading.')
     Notify.create({
-      message: "Nova atualização disponível.",
+      message: "Nova atualização disponível..",
       icon: "mdi-cloud-download-outline",
       closeBtn: "Atualizar",
       timeout: 10000,

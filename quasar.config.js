@@ -7,9 +7,8 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-
 const { configure } = require("quasar/wrappers");
-const { skipWaiting, clientsClaim } = require("workbox-core");
+// const { skipWaiting, clientsClaim } = require("workbox-core");
 
 module.exports = configure(function (/* ctx */) {
   return {
