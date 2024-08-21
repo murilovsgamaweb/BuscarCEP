@@ -5,10 +5,10 @@
         filled
         v-model="cep"
         label="CEP"
-        label-class="text-white"
         input-class="text-white"
         outlined
         maxlength="8"
+        :label-class="labelClass"
       />
       <q-input
         filled
@@ -16,8 +16,8 @@
         label="Logradouro"
         outlined
         readonly
-        label-class="text-white"
         input-class="text-white"
+        :label-class="labelClass"
       />
       <q-input
         filled
@@ -26,8 +26,8 @@
         label="Bairro"
         outlined
         readonly
-        label-class="text-white"
         input-class="text-white"
+        :label-class="labelClass"
       />
       <q-input
         filled
@@ -36,8 +36,8 @@
         label="Cidade"
         outlined
         readonly
-        label-class="text-white"
         input-class="text-white"
+        :label-class="labelClass"
       />
       <q-input
         filled
@@ -47,7 +47,7 @@
         outlined
         readonly
         autofocus
-        label-class="text-white"
+        :label-class="labelClass"
         input-class="text-white"
       />
       <q-input
@@ -56,8 +56,8 @@
         class="custom-label"
         label="Complemento"
         outlined
-        label-class="text-white"
         input-class="text-white"
+        :label-class="labelClass"
       />
       <q-btn label="Buscar CEP" @click="buscarCEP" />
     </div>
@@ -74,6 +74,9 @@ const complemento = ref("");
 const bairro = ref("");
 const cidade = ref("");
 const estado = ref("");
+
+// Define a classe para os labels dos inputs
+const labelClass = 'text-white';
 
 const buscarCEP = async () => {
   if (cep.value.length === 8) {
@@ -124,14 +127,13 @@ const buscarCEP = async () => {
 <style scoped>
 /* Estilo para a tela inteira com fundo escuro */
 .container {
-  background-color: #121212; /* Cor de fundo escura */
+  background-color: #0000006e; /* Cor de fundo escura */
   min-height: 100vh; /* Altura mínima para cobrir toda a tela */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
 }
-
 
 .form {
   background-color: #1e1e1e7e; /* Cor de fundo do formulário */
@@ -150,19 +152,9 @@ const buscarCEP = async () => {
   margin-bottom: 1rem;
   background-color: #1e1e1e34; /* Cor de fundo dos inputs */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: white;
 }
 
-/* Estilo para os campos de entrada */
-.q-input .q-field__control input {
-  color: #ffffff; /* Cor do texto digitado nos campos */
-}
-
-/* Estilo para a label do campo de entrada */
-.q-input .q-field__label {
-  color: #ffffff; /* Cor da label */
-}
-
-/* Estilo para o botão */
 .q-btn {
   width: 100%;
   background: #0f0850;
@@ -173,7 +165,9 @@ const buscarCEP = async () => {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 6px;
 }
-.container label {
-  color: #f5f5f5;
+
+/* Cor dos labels dos inputs usando o Quasar */
+.q-input .q-field__label {
+  color: white;
 }
 </style>
