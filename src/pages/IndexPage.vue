@@ -150,7 +150,7 @@ const buscarCEP = async () => {
   border-radius: 4px;
   border: 1px solid #0f0850;
   margin-bottom: 1rem;
-  background-color: #1e1e1e34; /* Cor de fundo dos inputs */
+  background-color: #62626283; /* Cor de fundo dos inputs */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   color: white;
 }
