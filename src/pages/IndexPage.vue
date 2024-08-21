@@ -3,17 +3,18 @@
     <div class="form">
       <q-input
         filled
-        v-model="cep"
+        v-model="formData.cep"
         label="CEP"
-        input-class="text-white"
         outlined
         maxlength="8"
+        input-class="text-white"
         :label-class="labelClass"
+        @input="clearDataIfInvalid"
       />
       <q-input
-        v-if="nome"
+        v-if="formData.nome"
         filled
-        v-model="nome"
+        v-model="formData.nome"
         label="Nome"
         outlined
         readonly
@@ -21,53 +22,16 @@
         :label-class="labelClass"
       />
       <q-input
+        v-for="(field, key) in fields"
+        :key="key"
         filled
-        v-model="logradouro"
-        label="Logradouro"
+        v-model="formData[key]"
+        :label="field.label"
         outlined
         readonly
         input-class="text-white"
         :label-class="labelClass"
-      />
-      <q-input
-        filled
-        v-model="bairro"
         class="custom-label"
-        label="Bairro"
-        outlined
-        readonly
-        input-class="text-white"
-        :label-class="labelClass"
-      />
-      <q-input
-        filled
-        v-model="cidade"
-        class="custom-label"
-        label="Cidade"
-        outlined
-        readonly
-        input-class="text-white"
-        :label-class="labelClass"
-      />
-      <q-input
-        filled
-        v-model="estado"
-        class="custom-label"
-        label="Estado"
-        outlined
-        readonly
-        autofocus
-        :label-class="labelClass"
-        input-class="text-white"
-      />
-      <q-input
-        filled
-        v-model="complemento"
-        class="custom-label"
-        label="Complemento"
-        outlined
-        input-class="text-white"
-        :label-class="labelClass"
       />
       <q-btn label="Buscar CEP" @click="buscarCEP" />
     </div>
@@ -75,63 +39,79 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { Notify } from "quasar";
+import { ref } from 'vue';
+import { Notify } from 'quasar';
 
-const cep = ref("");
-const nome = ref(""); 
-const logradouro = ref("");
-const complemento = ref("");
-const bairro = ref("");
-const cidade = ref("");
-const estado = ref("");
-const labelClass = "text-white";
+// Dados do formulário
+const formData = ref({
+  cep: '',
+  nome: '',
+  logradouro: '',
+  bairro: '',
+  cidade: '',
+  estado: '',
+  complemento: '',
+});
+
+// Campos do formulário
+const fields = {
+  logradouro: { label: 'Logradouro' },
+  bairro: { label: 'Bairro' },
+  cidade: { label: 'Cidade' },
+  estado: { label: 'Estado' },
+  complemento: { label: 'Complemento' },
+};
+
+const labelClass = 'text-white';
 
 const buscarCEP = async () => {
-  if (cep.value.length === 8) {
+  if (formData.value.cep.length === 8) {
     try {
-      const response = await fetch(
-        `https://servicos.remaza.com.br/api/CEP/${cep.value}`
-      );
+      const response = await fetch(`https://servicos.remaza.com.br/api/CEP/${formData.value.cep}`);
       const data = await response.json();
 
       if (data.ERRO) {
         Notify.create({
-          message: "CEP não encontrado",
-          color: "negative",
+          message: 'CEP não encontrado',
+          color: 'negative',
         });
-
-        nome.value = "";
-        logradouro.value = "";
-        complemento.value = "";
-        bairro.value = "";
-        cidade.value = "";
-        estado.value = "";
+        resetFields();
       } else {
-        nome.value = data.Nome || "";
-        logradouro.value = data.Logradouro || "";
-        complemento.value = data.Complemento || "";
-        bairro.value = data.Bairro || "";
-        cidade.value = data.Cidade || "";
-        estado.value = data.Estado || "";
+        formData.value.nome = data.Nome || '';
+        formData.value.logradouro = data.Logradouro || '';
+        formData.value.bairro = data.Bairro || '';
+        formData.value.cidade = data.Cidade || '';
+        formData.value.estado = data.Estado || '';
+        formData.value.complemento = data.Complemento || '';
 
-        if (!logradouro.value && bairro.value && cidade.value) {
-          logradouro.value = `${bairro.value}, ${cidade.value}`;
+        if (!formData.value.logradouro && formData.value.bairro && formData.value.cidade) {
+          formData.value.logradouro = `${formData.value.bairro}, ${formData.value.cidade}`;
         }
       }
     } catch (error) {
       Notify.create({
-        message: "Erro ao buscar o CEP",
-        color: "negative",
+        message: 'Erro ao buscar o CEP',
+        color: 'negative',
       });
     }
   } else {
-    nome.value = ""; 
-    logradouro.value = "";
-    complemento.value = "";
-    bairro.value = "";
-    cidade.value = "";
-    estado.value = "";
+    resetFields();
+  }
+};
+
+const resetFields = () => {
+  formData.value.nome = '';
+  formData.value.logradouro = '';
+  formData.value.bairro = '';
+  formData.value.cidade = '';
+  formData.value.estado = '';
+  formData.value.complemento = '';
+};
+
+// Limpa os dados se o CEP for inválido
+const clearDataIfInvalid = () => {
+  if (formData.value.cep.length !== 8) {
+    resetFields();
   }
 };
 </script>
@@ -154,6 +134,7 @@ const buscarCEP = async () => {
   width: 100%;
   max-width: 400px; 
 }
+
 .q-input,
 .q-btn {
   border-radius: 4px;

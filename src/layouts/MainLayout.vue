@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Busca de CEP
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -23,12 +23,14 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
+      class="drawer"
     >
       <q-list>
         <q-item-label
           header
+          class="drawer-header"
         >
-          Essential Links
+          Links Importantes
         </q-item-label>
 
         <EssentialLink
@@ -55,46 +57,22 @@ defineOptions({
 
 const linksList = [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    title: 'Documentação',
+    caption: 'saiba como usar a API',
+    icon: 'book',
+    link: 'https://example.com/docs'
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
+    title: 'Sobre o Projeto',
+    caption: 'Informações sobre a busca de CEP',
+    icon: 'info',
+    link: 'https://example.com/about'
   },
   {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+    title: 'Suporte',
+    caption: 'Entre em contato',
+    icon: 'support',
+    link: 'https://example.com/support'
   }
 ]
 
@@ -104,3 +82,46 @@ function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
+
+<style scoped>
+.q-header {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
+
+.q-toolbar {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
+
+.q-drawer {
+  background-color: #2c2c2c;
+}
+
+.drawer-header {
+  color: #f5f5f5;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: #1e1e1e;
+}
+
+.drawer .q-item {
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+}
+
+.drawer .q-item:hover {
+  background-color: #333;
+}
+
+.drawer .q-item-label {
+  color: #f5f5f5;
+}
+
+.q-page-container {
+  background-color: #444444a4;
+  color: #f5f5f5;
+}
+</style>
