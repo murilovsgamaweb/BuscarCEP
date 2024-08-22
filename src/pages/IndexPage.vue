@@ -22,7 +22,7 @@
         :label-class="labelClass"
       />
       <q-input
-        v-for="(field, key) in fields"
+        v-for="(field, key) in filteredFields"
         :key="key"
         filled
         v-model="formData[key]"
@@ -33,16 +33,24 @@
         :label-class="labelClass"
         class="custom-label"
       />
+      <q-input
+        filled
+        v-model="formData.complemento"
+        label="Complemento"
+        outlined
+        input-class="text-white"
+        :label-class="labelClass"
+        class="custom-label"
+      />
       <q-btn label="Buscar CEP" @click="buscarCEP" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Notify } from 'quasar';
 
-// Dados do formulário
 const formData = ref({
   cep: '',
   nome: '',
@@ -53,16 +61,19 @@ const formData = ref({
   complemento: '',
 });
 
-// Campos do formulário
 const fields = {
   logradouro: { label: 'Logradouro' },
   bairro: { label: 'Bairro' },
   cidade: { label: 'Cidade' },
   estado: { label: 'Estado' },
-  complemento: { label: 'Complemento' },
 };
 
 const labelClass = 'text-white';
+
+const filteredFields = computed(() => {
+  const { complemento, ...rest } = fields;
+  return rest;
+});
 
 const buscarCEP = async () => {
   if (formData.value.cep.length === 8) {
@@ -108,7 +119,6 @@ const resetFields = () => {
   formData.value.complemento = '';
 };
 
-// Limpa os dados se o CEP for inválido
 const clearDataIfInvalid = () => {
   if (formData.value.cep.length !== 8) {
     resetFields();
@@ -158,5 +168,9 @@ const clearDataIfInvalid = () => {
 
 .q-input .q-field__label {
   color: white;
+}
+
+.custom-label {
+  margin-bottom: 1rem;
 }
 </style>
